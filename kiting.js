@@ -56,9 +56,9 @@ function determine_clockwise(origin, target, range) {
         return false;
     }
 }
-// determines the point where the character is:
-// * in range of the enemy
-// * positioned such that the enemy stays close to the training spot
+// determines the coodinates where the character:
+// * in range to attack the enemy
+// * should drag the enemy in circles around the origin point
 function get_kite_point(origin, target, range, clockwise) {
     let mod = 1;
     if(!clockwise){
