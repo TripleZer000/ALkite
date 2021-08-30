@@ -9,7 +9,7 @@ var kiting_range = 2*character.range/3;
 
 // to be called whenever you want to attack or move to attack
 function attack_kite() {
-    if(character.rip) return;
+    if(character.rip || smart.moving) return;
     loot();
 
     target=get_targeted_monster();
@@ -31,7 +31,7 @@ function attack_kite() {
     } else {
         //replace with your preferred way of finding a target.
         target = get_nearest_monster();
-        if(target){
+        if(target && target.x){
             change_target(target);
             //got a new target, check if its better to rotate clockwise or counter-clockwise
             kiting_clockwise = determine_clockwise(kiting_origin,target,kiting_range);
@@ -64,9 +64,11 @@ function get_kite_point(origin, target, range, clockwise) {
     if(!clockwise){
         mod = -1;
     }
+
     let opp = target.y - origin.y;
     let adj = target.x - origin.x;
     let hyp = Math.sqrt(Math.pow(opp,2) + Math.pow(adj,2))
+    
     let theta = null;
     let yDif = null;
     if(adj > 0) {
