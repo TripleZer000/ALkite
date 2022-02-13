@@ -1,18 +1,21 @@
+//ORIGINALLY MADE BY bennettj12
 var kiting_clockwise = true;
 /// CHANGE kiting_origin to your training location!
 var kiting_origin = {
-    "x": 1221.6769383603669,
-	"y": -782.6235295448917
+    "x": -994,
+	"y": 1687
 }
 // can be changed to something else
 var kiting_range = 2*character.range/3;
+const attackThisType = "crabx"
 
 // to be called whenever you want to attack or move to attack
-function attack_kite() {
+setInterval(function(){
     if(character.rip || smart.moving) return;
     loot();
 
-    target=get_targeted_monster();
+const target = getBestTarget(attackThisType);
+
     if(target) {
         if(target.dead || !target.visible) {
             change_target(null);
@@ -30,7 +33,7 @@ function attack_kite() {
         
     } else {
         //replace with your preferred way of finding a target.
-        target = get_nearest_monster();
+const target = getBestTarget(attackThisType);
         if(target && target.x){
             change_target(target);
             //got a new target, check if its better to rotate clockwise or counter-clockwise
@@ -45,8 +48,18 @@ function attack_kite() {
             return;
         }
     }
-}
+},1000/2);
+////fix targetting other monsters
+ function getBestTarget(attackThisType) 
+{
+        // Return the closest monster already targeting me, if there is one
+        const targetingMe = get_nearest_monster({target: character.id, type: attackThisType})
+        if(targetingMe) return targetingMe
 
+        // Return the closest target of the given type
+        return get_nearest_monster({type: attackThisType})
+}
+//////////////////
 function determine_clockwise(origin, target, range) {
     cw = get_kite_point(origin,target,range,true);
     acw = get_kite_point(origin,target,range,false);
