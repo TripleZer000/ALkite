@@ -1,0 +1,31 @@
+setInterval(function()
+            {
+    kite();
+}, 100);
+
+function kite()
+{
+    var target = get_target();
+    if(target != null)
+    {
+        var movePos = pointOnAngle(target, angleToPoint(target.real_x, target.real_y), character.range - 10);
+        move(movePos.x, movePos.y);
+    }
+}
+
+function pointOnAngle(entity, angle, distance)
+{
+    var circX = entity.real_x + (distance * Math.cos(angle));
+    var circY = entity.real_y + (distance * Math.sin(angle));
+    
+    return {x: circX, y: circY};
+}
+
+function angleToPoint(x, y) {
+    var deltaX = character.real_x - x;
+    var deltaY = character.real_y - y;
+
+    return Math.atan2(deltaY, deltaX);
+}
+
+///ABOVE WORKS IN A LINE
